@@ -107,7 +107,6 @@
 <!-- 🔥 VOICE INPUT SCRIPT -->
 <!-- ============================= -->
 <script>
-
 function startVoice(){
 
     const SpeechRecognition =
@@ -116,7 +115,6 @@ function startVoice(){
     const recognition = new SpeechRecognition();
 
     recognition.lang = "en-US";
-
     recognition.start();
 
     recognition.onresult = function(event){
@@ -125,23 +123,25 @@ function startVoice(){
 
         console.log(text);
 
-        let nums = text.match(/\d+(\.\d+)?/g);
+        // extract numbers
+        let nums = text.match(/[0-9.]+/g);
 
-        if(nums && nums.length >= 5){
+        if(!nums){
+            alert("Speak numbers like: 6.5 40 60 45 50");
+            return;
+        }
 
+        if(nums.length >= 5){
             document.getElementById("ph").value = nums[0];
             document.getElementById("moisture").value = nums[1];
             document.getElementById("n").value = nums[2];
             document.getElementById("p").value = nums[3];
             document.getElementById("k").value = nums[4];
-
-        } else {
-            alert("Speak 5 numbers: ph moisture n p k");
         }
     }
 }
-
 </script>
+
 
 </body>
 </html>
