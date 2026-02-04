@@ -1,36 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>History</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#e8f5e9;
+    text-align:center;
+    margin:0;
+}
+
+/* header */
+.header{
+    background:#2e7d32;
+    color:white;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* table card */
+.container{
+    margin:30px auto;
+    width:90%;
+    max-width:900px;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+/* table */
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+th{
+    background:#4caf50;
+    color:white;
+}
+
+th, td{
+    padding:10px;
+    border:1px solid #ccc;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+/* button */
+.back{
+    background:#2196f3;
+    color:white;
+    padding:8px 14px;
+    border:none;
+    border-radius:6px;
+    margin-top:15px;
+    cursor:pointer;
+}
+
+</style>
 </head>
 
-<body class="bg-success bg-gradient p-5">
+<body>
 
-<div class="container bg-white p-4 rounded shadow">
+<div class="header">
+📜 Soil History Records
+</div>
 
-<h3 class="text-success">🌱 Soil History Records</h3>
+<div class="container">
 
-<table class="table table-bordered table-striped">
-
+<table>
 <tr>
+<th>ID</th>
 <th>pH</th>
 <th>Moisture</th>
+<th>N</th>
+<th>P</th>
+<th>K</th>
 <th>Soil</th>
 <th>Crop</th>
 </tr>
 
 {% for row in data %}
 <tr>
-<td>{{row[1]}}</td>
-<td>{{row[2]}}</td>
-<td>{{row[6]}}</td>
-<td>{{row[7]}}</td>
+{% for col in row %}
+<td>{{ col }}</td>
+{% endfor %}
 </tr>
 {% endfor %}
-
 </table>
 
-<a href="/" class="btn btn-success mt-3">Back</a>
+<br>
+
+<a href="/">
+    <button class="back">⬅ Back</button>
+</a>
 
 </div>
 

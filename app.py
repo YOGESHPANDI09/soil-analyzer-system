@@ -4,29 +4,23 @@ import joblib
 
 app = Flask(__name__)
 
-# =========================
-# LOAD ML MODELS
-# =========================
+# ---------------- ML models ----------------
 soil_model = joblib.load("soil_model.pkl")
 crop_model = joblib.load("crop_model.pkl")
 
 
-# =========================
-# LANGUAGE DICTIONARY
-# =========================
+# ---------------- Language ----------------
 texts = {
     "en": {
         "title": "🌱 Soil Analyzer System",
         "ph": "pH Value",
-        "moisture": "Moisture (%)",
+        "moisture": "Moisture",
         "n": "Nitrogen",
         "p": "Phosphorus",
         "k": "Potassium",
-        "analyze": "Analyze Soil",
-        "history": "History",
-        "soil": "Soil Type",
-        "crop": "Recommended Crop",
-        "back": "Back"
+        "analyze": "Analyze",
+        "voice": "Voice Input",
+        "history": "History"
     },
     "ta": {
         "title": "🌱 மண் ஆய்வு முறை",
@@ -35,18 +29,14 @@ texts = {
         "n": "நைட்ரஜன்",
         "p": "பாஸ்பரஸ்",
         "k": "பொட்டாசியம்",
-        "analyze": "மண் பரிசோதனை",
-        "history": "வரலாறு",
-        "soil": "மண் வகை",
-        "crop": "பரிந்துரைக்கப்பட்ட பயிர்",
-        "back": "திரும்ப"
+        "analyze": "பரிசோதனை செய்",
+        "voice": "குரல் உள்ளீடு",
+        "history": "வரலாறு"
     }
 }
 
 
-# =========================
-# DATABASE
-# =========================
+# ---------------- DB ----------------
 def init_db():
     conn = sqlite3.connect("soil.db")
     conn.execute("""
@@ -66,18 +56,14 @@ def init_db():
 init_db()
 
 
-# =========================
-# HOME
-# =========================
+# ---------------- HOME ----------------
 @app.route("/")
 def home():
     lang = request.args.get("lang", "en")
     return render_template("index.html", t=texts[lang], lang=lang)
 
 
-# =========================
-# ANALYZE (ML)
-# =========================
+# ---------------- ANALYZE ----------------
 @app.route("/analyze", methods=["POST"])
 def analyze():
 
@@ -102,37 +88,19 @@ def analyze():
     conn.commit()
     conn.close()
 
-    return render_template(
-        "result.html",
-        soil=soil,
-        crop=crop,
-        t=texts[lang],
-        lang=lang
-    )
+    return f"Soil: {soil} | Crop: {crop} <br><br><a href='/?lang={lang}'>Back</a>"
 
 
-# =========================
-# HISTORY
-# =========================
+# ---------------- HISTORY ----------------
 @app.route("/history")
 def history():
-
-    lang = request.args.get("lang", "en")
 
     conn = sqlite3.connect("soil.db")
     data = conn.execute("SELECT * FROM soil").fetchall()
     conn.close()
 
-    return render_template(
-        "history.html",
-        data=data,
-        t=texts[lang],
-        lang=lang
-    )
+    return render_template("history.html", data=data)
 
 
-# =========================
-# RUN
-# =========================
 if __name__ == "__main__":
     app.run(debug=True)

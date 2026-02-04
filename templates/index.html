@@ -1,152 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{ t.title }}</title>
+<title>{{ t.title }}</title>
 
-    <style>
+<style>
 
-        body{
-            font-family: Arial;
-            text-align:center;
-            color:white;
+body{
+    font-family: Arial;
+    margin:0;
+    text-align:center;
+    background:url("/static/test.png");
+    background-size:cover;
+    color:white;
+}
 
-            background:url("/static/test.png");
-            background-size:cover;
-            background-position:center;
-            background-repeat: no-repeat;
-        }
+.header{
+    background:#2e7d32;
+    padding:15px;
+    font-size:22px;
+    font-weight:bold;
+}
 
-        .card{
-            background:rgba(0,0,0,0.75);
-            padding:25px;
-            width:340px;
-            margin:auto;
-            margin-top:60px;
-            border-radius:15px;
-        }
+.card{
+    background:rgba(0,0,0,0.8);
+    width:340px;
+    margin:40px auto;
+    padding:25px;
+    border-radius:12px;
+}
 
-        input{
-            width:90%;
-            padding:8px;
-            margin:6px;
-            border-radius:8px;
-            border:none;
-        }
+input{
+    width:95%;
+    padding:9px;
+    margin:6px;
+    border-radius:6px;
+    border:none;
+}
 
-        button{
-            padding:8px 14px;
-            margin:5px;
-            border-radius:8px;
-            border:none;
-            cursor:pointer;
-        }
+button{
+    padding:8px 12px;
+    margin:5px;
+    border-radius:6px;
+    border:none;
+    cursor:pointer;
+}
 
-        .voice{
-            background:#ff9800;
-            color:white;
-        }
+.voice{ background:#ff9800; color:white; }
+.analyze{ background:#4caf50; color:white; }
+.history{ background:#2196f3; color:white; }
 
-        .analyze{
-            background:#4caf50;
-            color:white;
-        }
-
-        .history{
-            background:#2196f3;
-            color:white;
-        }
-
-    </style>
+</style>
 </head>
-
 
 <body>
 
-<h2 style="color:white; margin-top:20px;">
-    🌱 Soil Analyzer System
-</h2>
+<div class="header">{{ t.title }}</div>
 
+<br>
+<a href="/?lang=en">English</a> |
+<a href="/?lang=ta">தமிழ்</a>
 
 <div class="card">
 
 <form action="/analyze?lang={{ lang }}" method="post">
 
-    <input id="ph" name="ph" placeholder="{{ t.ph }}" required><br>
+<input id="ph" name="ph" placeholder="{{ t.ph }}">
+<input id="moisture" name="moisture" placeholder="{{ t.moisture }}">
+<input id="n" name="n" placeholder="{{ t.n }}">
+<input id="p" name="p" placeholder="{{ t.p }}">
+<input id="k" name="k" placeholder="{{ t.k }}">
 
-    <input id="moisture" name="moisture" placeholder="{{ t.moisture }}" required><br>
+<br>
 
-    <input id="n" name="n" placeholder="{{ t.n }}" required><br>
+<button type="button" class="voice" onclick="startVoice()">🎤 {{ t.voice }}</button>
+<button type="submit" class="analyze">{{ t.analyze }}</button>
 
-    <input id="p" name="p" placeholder="{{ t.p }}" required><br>
-
-    <input id="k" name="k" placeholder="{{ t.k }}" required><br>
-
-    <button class="voice" type="button" onclick="startVoice()">🎤 Voice</button>
-
-    <button class="analyze" type="submit">{{ t.analyze }}</button>
+<a href="/history">
+<button type="button" class="history">{{ t.history }}</button>
+</a>
 
 </form>
 
 <br>
-
-<a href="/history?lang={{ lang }}">
-    <button class="history">{{ t.history }}</button>
-</a>
-
-<br><br>
-
-<p>📱 Scan to open on mobile</p>
-<img src="/static/URL QR CODE.png" width="130">
+<p>Scan QR</p>
+<img src="/static/URL QR Code.png" width="120">
 
 </div>
 
 
-
-<!-- ============================= -->
-<!-- 🔥 VOICE INPUT SCRIPT -->
-<!-- ============================= -->
 <script>
 function startVoice(){
-
     const SpeechRecognition =
         window.SpeechRecognition || window.webkitSpeechRecognition;
 
     const recognition = new SpeechRecognition();
-
-    recognition.lang = "en-US";
     recognition.start();
 
     recognition.onresult = function(event){
-
-        let text = event.results[0][0].transcript;
-
-        console.log(text);
-
-        // show what phone heard
-        let clean = prompt(
-            "Voice detected:\n\n" + text +
-            "\n\nEdit if needed (format: 6.5 40 60 45 50)"
-        );
-
-        if(!clean) return;
-
-        let parts = clean.split(" ");
-
-        if(parts.length < 5){
-            alert("Enter 5 numbers separated by space");
-            return;
+        let parts = event.results[0][0].transcript.split(" ");
+        if(parts.length>=5){
+            ph.value=parts[0];
+            moisture.value=parts[1];
+            n.value=parts[2];
+            p.value=parts[3];
+            k.value=parts[4];
         }
-
-        document.getElementById("ph").value = parts[0];
-        document.getElementById("moisture").value = parts[1];
-        document.getElementById("n").value = parts[2];
-        document.getElementById("p").value = parts[3];
-        document.getElementById("k").value = parts[4];
     }
 }
 </script>
-
 
 </body>
 </html>
