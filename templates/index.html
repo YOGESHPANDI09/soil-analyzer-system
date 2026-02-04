@@ -1,119 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{{ t.title }}</title>
 
-<style>
-body{
-    background: url("https://images.unsplash.com/photo-1464226184884-fa280b87c399") no-repeat center center/cover;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+    <style>
 
-body::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.55); /* dark overlay */
-    backdrop-filter: blur(4px);
-}
+        body{
+            font-family: Arial;
+            text-align:center;
+            color:white;
 
-.card{
-    position:relative;
-    z-index:2;
-}
+            background:url("/static/test.png");
+            background-size:cover;
+            background-position:center;
+            background-repeat: no-repeat;
+        }
 
+        .card{
+            background:rgba(0,0,0,0.75);
+            padding:25px;
+            width:340px;
+            margin:auto;
+            margin-top:60px;
+            border-radius:15px;
+        }
 
-</style>
+        input{
+            width:90%;
+            padding:8px;
+            margin:6px;
+            border-radius:8px;
+            border:none;
+        }
+
+        button{
+            padding:8px 14px;
+            margin:5px;
+            border-radius:8px;
+            border:none;
+            cursor:pointer;
+        }
+
+        .voice{
+            background:#ff9800;
+            color:white;
+        }
+
+        .analyze{
+            background:#4caf50;
+            color:white;
+        }
+
+        .history{
+            background:#2196f3;
+            color:white;
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<div class="card bg-white shadow">
+<h2 style="color:white; margin-top:20px;">
+    🌱 Soil Analyzer System
+</h2>
 
-<!-- Language Dropdown -->
-<form method="get" class="mb-3 text-end">
-<select name="lang" onchange="this.form.submit()" class="form-select w-50 ms-auto">
-<option value="en" {% if lang=='en' %}selected{% endif %}>English</option>
-<option value="ta" {% if lang=='ta' %}selected{% endif %}>தமிழ்</option>
-</select>
-</form>
 
-<h4 class="text-success text-center">{{t.title}}</h4>
+<div class="card">
 
-<form action="/analyze?lang={{lang}}" method="post">
+<form action="/analyze?lang={{ lang }}" method="post">
 
-<label>{{t.ph}}</label>
-<input name="ph" class="form-control mb-2">
+    <input id="ph" name="ph" placeholder="{{ t.ph }}" required><br>
 
-<label>{{t.moisture}}</label>
-<input name="moisture" class="form-control mb-2">
+    <input id="moisture" name="moisture" placeholder="{{ t.moisture }}" required><br>
 
-<div class="row mb-2">
-<div class="col">
-<label>{{t.n}}</label>
-<input name="n" class="form-control">
-</div>
+    <input id="n" name="n" placeholder="{{ t.n }}" required><br>
 
-<div class="col">
-<label>{{t.p}}</label>
-<input name="p" class="form-control">
-</div>
+    <input id="p" name="p" placeholder="{{ t.p }}" required><br>
 
-<div class="col">
-<label>{{t.k}}</label>
-<input name="k" class="form-control">
-</div>
-</div>
+    <input id="k" name="k" placeholder="{{ t.k }}" required><br>
 
-<button class="btn btn-success w-100">{{t.analyze}}</button>
+    <button class="voice" type="button" onclick="startVoice()">🎤 Voice</button>
 
-<button type="button" onclick="startVoice()" class="btn btn-warning w-100 mt-2">
- (Voice Input)
-</button>
+    <button class="analyze" type="submit">{{ t.analyze }}</button>
 
 </form>
 
 <br>
-<a href="/history?lang={{lang}}" class="btn btn-outline-success w-100">{{t.history}}</a>
+
+<a href="/history?lang={{ lang }}">
+    <button class="history">{{ t.history }}</button>
+</a>
+
+<br><br>
+
+<p>📱 Scan to open on mobile</p>
+<img src="/static/URL QR CODE.png" width="130">
 
 </div>
+
+
+
+<!-- ============================= -->
+<!-- 🔥 VOICE INPUT SCRIPT -->
+<!-- ============================= -->
 <script>
 
 function startVoice(){
 
-const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)();
+    const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
 
-recognition.lang = "ta-IN";   // Tamil
-recognition.start();
+    const recognition = new SpeechRecognition();
 
-recognition.onresult = function(event){
+    recognition.lang = "en-US";
 
-let text = event.results[0][0].transcript;
-alert("நீங்கள் சொன்னது: " + text);
+    recognition.start();
 
-// extract numbers
-let nums = text.match(/\d+(\.\d+)?/g);
+    recognition.onresult = function(event){
 
-if(nums && nums.length >= 5){
-document.querySelector('[name="ph"]').value = nums[0];
-document.querySelector('[name="moisture"]').value = nums[1];
-document.querySelector('[name="n"]').value = nums[2];
-document.querySelector('[name="p"]').value = nums[3];
-document.querySelector('[name="k"]').value = nums[4];
-}
-}
+        let text = event.results[0][0].transcript;
 
+        console.log(text);
+
+        let nums = text.match(/\d+(\.\d+)?/g);
+
+        if(nums && nums.length >= 5){
+
+            document.getElementById("ph").value = nums[0];
+            document.getElementById("moisture").value = nums[1];
+            document.getElementById("n").value = nums[2];
+            document.getElementById("p").value = nums[3];
+            document.getElementById("k").value = nums[4];
+
+        } else {
+            alert("Speak 5 numbers: ph moisture n p k");
+        }
+    }
 }
 
 </script>
-<div style="text-align:center; margin-top:25px;">
-    <p style="color:white;">📱 Scan to open on mobile</p>
-    <img src="/static/qr.png" width="140">
-</div>
 
 </body>
 </html>
