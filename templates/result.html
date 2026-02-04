@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Result</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    text-align:center;
+    background:url("/static/bg.jpg");
+    background-size:cover;
+    color:white;
+}
+
+.card{
+    background:rgba(0,0,0,0.85);
+    width:300px;
+    margin:120px auto;
+    padding:25px;
+    border-radius:12px;
+}
+
+button{
+    padding:8px 14px;
+    border:none;
+    border-radius:6px;
+    background:#4caf50;
+    color:white;
+}
+
+</style>
 </head>
 
-<body class="bg-success bg-gradient d-flex justify-content-center align-items-center vh-100">
+<body>
 
-<div class="card p-5 text-center shadow">
+<div class="card">
 
-<h3>{{t.result}}</h3>
+<h2>🌱 Result</h2>
 
-<p>{{t.soil}}: {{soil}}</p>
-<p>{{t.crop}}: {{crop}}</p>
+<h3>Soil: {{ soil }}</h3>
+<h3>Crop: {{ crop }}</h3>
 
-<a href="/?lang={{lang}}" class="btn btn-success mt-3">{{t.back}}</a>
+<br>
+
+<a href="/?lang={{ lang }}">
+<button>Back</button>
+</a>
 
 </div>
 

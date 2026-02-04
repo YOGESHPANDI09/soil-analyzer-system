@@ -88,7 +88,12 @@ def analyze():
     conn.commit()
     conn.close()
 
-    return f"Soil: {soil} | Crop: {crop} <br><br><a href='/?lang={lang}'>Back</a>"
+    return render_template(
+    "result.html",
+    soil=soil,
+    crop=crop,
+    lang=lang
+)
 
 
 # ---------------- HISTORY ----------------
