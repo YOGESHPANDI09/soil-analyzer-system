@@ -1,0 +1,6 @@
+crop,next_crop,soil_effect,recovery_months
+Rice,Pulses,Reduces Nitrogen,3
+Cotton,Legumes,Reduces Nitrogen,3
+Maize,Groundnut,Reduces fertility,3
+Wheat,Vegetables,Soil moisture loss,2
+Sugarcane,Green manure,Heavy nutrient usage,4

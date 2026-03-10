@@ -11,7 +11,7 @@ soil_model = joblib.load("soil_model.pkl")
 crop_model = joblib.load("crop_model.pkl")
 
 # ---------------- Dataset ----------------
-rotation_path = os.path.join("../dataset", "crop_rotation.csv")
+rotation_path = os.path.join("dataset", "crop_rotation.csv")
 rotation_data = pd.read_csv(rotation_path)
 
 # ---------------- Language ----------------
