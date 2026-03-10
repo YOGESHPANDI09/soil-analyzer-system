@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>History</title>
+<title>Soil History</title>
 
 <style>
-
 body{
     font-family: Arial;
     background:#e8f5e9;
-    text-align:center;
     margin:0;
 }
 
@@ -17,15 +15,16 @@ body{
     background:#2e7d32;
     color:white;
     padding:15px;
-    font-size:22px;
+    font-size:24px;
     font-weight:bold;
+    text-align:center;
 }
 
-/* table card */
+/* card */
 .container{
-    margin:30px auto;
     width:90%;
-    max-width:900px;
+    max-width:1000px;
+    margin:20px auto;
     background:white;
     padding:20px;
     border-radius:10px;
@@ -35,44 +34,62 @@ body{
 /* table */
 table{
     width:100%;
-    border-collapse: collapse;
+    border-collapse:collapse;
 }
-
 th{
     background:#4caf50;
     color:white;
 }
-
-th, td{
+th,td{
     padding:10px;
     border:1px solid #ccc;
 }
-
 tr:nth-child(even){
     background:#f2f2f2;
+}
+
+/* soil section */
+.soil-box{
+    margin-top:20px;
+    padding:15px;
+    background:#f1f8e9;
+    border-left:6px solid #4caf50;
+    border-radius:8px;
+}
+
+.location{
+    margin-top:15px;
+    font-weight:bold;
+    color:#2e7d32;
 }
 
 /* button */
 .back{
     background:#2196f3;
     color:white;
-    padding:8px 14px;
+    padding:10px 16px;
     border:none;
     border-radius:6px;
     margin-top:15px;
     cursor:pointer;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="header">
-📜 Soil History Records
+📜 Soil History & Location Soil Guide
+</div>
+<div style="text-align:center; margin-top:10px;">
+    <a href="/location">
+        <button class="back">🌍 Location Soil Guide</button>
+    </a>
 </div>
 
 <div class="container">
+
+<h3>📊 Previous Soil Analysis Records</h3>
 
 <table>
 <tr>
@@ -95,10 +112,14 @@ tr:nth-child(even){
 {% endfor %}
 </table>
 
-<br>
+<br><br>
 
+
+
+
+<br>
 <a href="/">
-    <button class="back">⬅ Back</button>
+<button class="back">⬅ Back</button>
 </a>
 
 </div>

@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Result</title>
+    <meta charset="UTF-8">
+    <title>{{ t.result }}</title>
+    
 
 <style>
-
 body{
-    font-family:Arial;
-    text-align:center;
-    background:url("/static/bg.jpg");
+    font-family: Arial;
+    margin:0;
+    background:url("/static/result_bg.png");
     background-size:cover;
-    color:white;
-}
+    height:100vh;
 
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 .card{
-    background:rgba(0,0,0,0.85);
-    width:300px;
-    margin:120px auto;
-    padding:25px;
-    border-radius:12px;
+    background: rgba(0,0,0,0.85);
+    width: 350px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align:center;
+    color: whitesmoke;
 }
 
 button{
-    padding:8px 14px;
-    border:none;
-    border-radius:6px;
-    background:#4caf50;
+    background:#4CAF50;
     color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -36,16 +41,28 @@ button{
 
 <div class="card">
 
-<h2>🌱 Result</h2>
+    <h2>🌱 {{ t.result }}</h2>
 
-<h3>Soil: {{ soil }}</h3>
-<h3>Crop: {{ crop }}</h3>
+    <h3>{{ t.soil }}: {{ soil }}</h3>
+    <h3>{{ t.crop }}: {{ crop }}</h3>
 
-<br>
+    <h3>🌱{{ t.rotation }}</h3>
 
-<a href="/?lang={{ lang }}">
-<button>Back</button>
-</a>
+    <h3>1.Nutrient Level</h3>
+    <p>{{ nutrient }}</p>
+
+    <h3>2.Fertilizer Advice</h3>
+    <p class="fertilize_title">{{ fertilizer }}</p>
+
+    <p>{{ restriction }}</p>
+    <p>{{ recommendation }}</p>
+    <p>{{ soil_alert }}</p>
+
+    <br>
+
+    <a href="/?lang={{ lang }}">
+        <button>{{ t.back }}</button>
+    </a>
 
 </div>
 

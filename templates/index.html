@@ -4,11 +4,9 @@
 <title>{{ t.title }}</title>
 
 <style>
-
 body{
     font-family: Arial;
     margin:0;
-    text-align:center;
     background:url("/static/test.png");
     background-size:cover;
     color:white;
@@ -19,12 +17,22 @@ body{
     padding:15px;
     font-size:22px;
     font-weight:bold;
+    text-align:center;
 }
 
+/* MAIN FLEX LAYOUT */
+.main{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    gap:40px;
+    margin-top:50px;
+}
+
+/* FORM BOX */
 .card{
     background:rgba(0,0,0,0.8);
     width:340px;
-    margin:40px auto;
     padding:25px;
     border-radius:12px;
 }
@@ -45,10 +53,27 @@ button{
     cursor:pointer;
 }
 
-.voice{ background:#ff9800; color:white; }
-.analyze{ background:#4caf50; color:white; }
-.history{ background:#2196f3; color:white; }
+.voice{background:#ff9800;color:white;}
+.analyze{background:#4caf50;color:white;}
+.history{background:#2196f3;color:white;}
 
+/* IMPORTANT NOTE BOX */
+.note-box{
+    width:280px;
+    background:rgba(0,0,0,0.85);
+    padding:20px;
+    border-radius:12px;
+    border-left:5px solid #4CAF50;
+}
+
+.note-box h3{
+    color:#4CAF50;
+}
+
+.lang{
+    text-align:center;
+    margin-top:10px;
+}
 </style>
 </head>
 
@@ -56,19 +81,24 @@ button{
 
 <div class="header">{{ t.title }}</div>
 
-<br>
+<div class="lang">
 <a href="/?lang=en">English</a> |
 <a href="/?lang=ta">தமிழ்</a>
+</div>
 
+
+<div class="main">
+
+<!-- FORM -->
 <div class="card">
 
 <form action="/analyze?lang={{ lang }}" method="post">
 
-<input id="ph" name="ph" placeholder="{{ t.ph }}">
-<input id="moisture" name="moisture" placeholder="{{ t.moisture }}">
-<input id="n" name="n" placeholder="{{ t.n }}">
-<input id="p" name="p" placeholder="{{ t.p }}">
-<input id="k" name="k" placeholder="{{ t.k }}">
+<input name="ph" placeholder="{{ t.ph }}">
+<input name="moisture" placeholder="{{ t.moisture }}">
+<input name="n" placeholder="{{ t.n }}">
+<input name="p" placeholder="{{ t.p }}">
+<input name="k" placeholder="{{ t.k }}">
 
 <br>
 
@@ -82,30 +112,42 @@ button{
 </form>
 
 <br>
-<p>Scan QR</p>
-<img src="/static/URL QR Code.png" width="120">
+<p style="text-align:center;">Scan QR</p>
+<img src="/static/NEW QR CODE.png" width="120" style="display:block; margin:auto;">
+
+</div>
+
+
+<!-- RIGHT SIDE IMPORTANT NOTE -->
+<div class="note-box">
+<h3>{{ t.note_title }}</h3>
+<p>{{ t.note1 }}</p>
+<p>{{ t.note2 }}</p>
+<p>{{ t.note3 }}</p>
+<p>{{ t.note4 }}</p>
+</div>
 
 </div>
 
 
 <script>
 function startVoice(){
-    const SpeechRecognition =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
+ const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const recognition = new SpeechRecognition();
-    recognition.start();
+ const recognition = new SpeechRecognition();
+ recognition.start();
 
-    recognition.onresult = function(event){
-        let parts = event.results[0][0].transcript.split(" ");
-        if(parts.length>=5){
-            ph.value=parts[0];
-            moisture.value=parts[1];
-            n.value=parts[2];
-            p.value=parts[3];
-            k.value=parts[4];
-        }
-    }
+ recognition.onresult = function(event){
+   let parts = event.results[0][0].transcript.split(" ");
+   if(parts.length>=5){
+     document.getElementsByName("ph")[0].value=parts[0];
+     document.getElementsByName("moisture")[0].value=parts[1];
+     document.getElementsByName("n")[0].value=parts[2];
+     document.getElementsByName("p")[0].value=parts[3];
+     document.getElementsByName("k")[0].value=parts[4];
+   }
+ }
 }
 </script>
 
